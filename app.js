@@ -47,13 +47,28 @@ function downloadPdf(){
     var data = processData(text);
     var dataA = listToMatrix(data.dataA, 4)
     var dataB = listToMatrix(data.dataB, 4)
-    
+    console.log(dataA.length);
+   
+    var pageIndexA = 0;
     for(var i = 0; i < dataA.length; i++){
-        setRow(dataA[i].length,i,dataA[i],doc);
+        
+        if((i+1) % 10 == 0){
+            pageIndexA = 0;
+            doc.addPage("a4","p");
+        }
+        setRow(dataA[i].length,pageIndexA,dataA[i],doc);
+        pageIndexA++;
+        
     }
     doc.addPage("a4","p");
+    var pageIndexB = 0;
     for(var i = 0; i < dataB.length; i++){
-        setRow(dataB[i].length,i,dataB[i],doc);
+        if((i+1) % 10 == 0){
+            pageIndexB = 0;
+            doc.addPage("a4","p");
+        }
+        setRow(dataB[i].length,pageIndexB,dataB[i],doc);
+        pageIndexB++;
     }
 
    doc.save('flash-card.pdf',{returnPromise:true});
